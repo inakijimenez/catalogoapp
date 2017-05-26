@@ -62,6 +62,7 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\t</header>\r\n");
       out.write("\t<nav>\r\n");
       out.write("\t\t<ul>\r\n");
+      out.write("\t\t\t<li><a href=\"index\">Inicio</a></li>\r\n");
       out.write("\t\t\t<li><a href=\"login\">Login</a></li>\r\n");
       out.write("\t\t\t<li><a href=\"usuariocrud?op=alta\">Alta</a></li>\r\n");
       out.write("\t\t\t<li><a href=\"usuariocrud\">Gestion de Usuarios</a></li>\r\n");
@@ -74,7 +75,7 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\t\r\n");
       out.write("\t\t<ul>\r\n");
       out.write("\t\t\t<li><a href=\"#\">Carrito</a></li>\r\n");
-      out.write("\t\t\t<li><a href=\"administracion\">Administracion</a></li>\r\n");
+      out.write("\t\t\t<li><a href=\"administracion\">Administracion de Productos</a></li>\r\n");
       out.write("\t\t</ul>\r\n");
       out.write("\t\r\n");
       out.write("<footer>\r\n");

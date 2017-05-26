@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.ipartek.formacion.ijimenez.dal.DALFactory;
 import com.ipartek.formacion.ijimenez.dal.ProductosDAL;
 import com.ipartek.formacion.ijimenez.tipos.Producto;
 
@@ -23,18 +22,18 @@ public class ProductosCRUDServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServletContext application = getServletContext();
-		ProductosDAL dal = (ProductosDAL) application.getAttribute("dal");
+		ProductosDAL dal = (ProductosDAL) application.getAttribute("productosdal");
 
 		String op = request.getParameter("op");
 
-		if (dal == null) {
-			dal = DALFactory.getProductosDAL();
-
-			dal.nuevo(new Producto(1, "producto1", "descripcion1", 10.00));
-			dal.nuevo(new Producto(2, "producto2", "descripcion2", 20.00));
-
-			application.setAttribute("dal", dal);
-		}
+		// if (dal == null) {
+		// dal = DALFactory.getProductosDAL();
+		//
+		// dal.nuevo(new Producto(1, "producto1", "descripcion1", 10.00));
+		// dal.nuevo(new Producto(2, "producto2", "descripcion2", 20.00));
+		//
+		// application.setAttribute("productosdal", dal);
+		// }
 
 		if (op == null) {
 

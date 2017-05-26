@@ -14,6 +14,7 @@
 	</header>
 	<nav>
 		<ul>
+			<li><a href="index">Inicio</a></li>
 			<li><a href="login">Login</a></li>
 			<li><a href="usuariocrud?op=alta">Alta</a></li>
 			<li><a href="usuariocrud">Gestion de Usuarios</a></li>

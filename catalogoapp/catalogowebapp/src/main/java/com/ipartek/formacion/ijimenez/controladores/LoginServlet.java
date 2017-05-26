@@ -39,7 +39,6 @@ public class LoginServlet extends HttpServlet {
 		// Recoger datos de vistas
 		String nombre = request.getParameter("nombre");
 		String pass = request.getParameter("pass");
-
 		String opcion = request.getParameter("opcion");
 
 		// Crear modelos en base a los datos
@@ -50,7 +49,7 @@ public class LoginServlet extends HttpServlet {
 		// Llamada a l�gica de negocio
 		ServletContext application = request.getServletContext();
 
-		UsuariosDAL usuariosDAL = (UsuariosDAL) application.getAttribute("dal");
+		UsuariosDAL usuariosDAL = (UsuariosDAL) application.getAttribute("usuariosdal");
 
 		if (usuariosDAL == null) {
 			usuariosDAL = DALFactory.getUsuariosDAL();
@@ -100,6 +99,7 @@ public class LoginServlet extends HttpServlet {
 			request.setAttribute("usuario", usuario);
 			request.getRequestDispatcher(RUTA_LOGIN).forward(request, response);
 		} else if (esValido) {
+
 			session.setAttribute("usuario", usuario);
 			// response.sendRedirect("principal.jsp");
 			log.info("Sesion de usuario iniciada");

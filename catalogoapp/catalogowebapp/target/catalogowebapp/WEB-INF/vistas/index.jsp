@@ -4,7 +4,7 @@
 	
 		<ul>
 			<li><a href="#">Carrito</a></li>
-			<li><a href="administracion">Administracion</a></li>
+			<li><a href="administracion">Administracion de Productos</a></li>
 		</ul>
 	
 <%@ include file="includes/pie.jsp" %>

@@ -58,14 +58,14 @@ public class UsuarioFormServlet extends HttpServlet {
 		Usuario usuario = new Usuario(nombre, pass, Nivel.USUARIO);
 
 		ServletContext application = request.getServletContext();
-		UsuariosDAL dal = (UsuariosDAL) application.getAttribute("dal");
+		UsuariosDAL dal = (UsuariosDAL) application.getAttribute("usuariosdal");
 
 		switch (op) {
 		case "alta":
 			log.info("Se va a llevar a cabo la operacion de alta un usuario");
 			if (pass.equals(pass2)) {
 				dal.alta(usuario);
-				rutaListado.forward(request, response);
+				response.sendRedirect(UsuarioCRUDServlet.RUTA_SERVLET_LISTADO);
 			} else {
 				usuario.setErrores("Las contrase�as no coinciden");
 				request.setAttribute("usuario", usuario);
@@ -84,7 +84,7 @@ public class UsuarioFormServlet extends HttpServlet {
 					rutaFormulario.forward(request, response);
 					return;
 				}
-				rutaListado.forward(request, response);
+				response.sendRedirect(UsuarioCRUDServlet.RUTA_SERVLET_LISTADO);
 			} else {
 				usuario.setErrores("Las contrase�as no coinciden");
 				request.setAttribute("usuario", usuario);
@@ -95,7 +95,7 @@ public class UsuarioFormServlet extends HttpServlet {
 		case "borrar":
 			log.info("Se va a llevar a cabo la operacion de borrar un usuario");
 			dal.borrar(usuario);
-			rutaListado.forward(request, response);
+			response.sendRedirect(UsuarioCRUDServlet.RUTA_SERVLET_LISTADO);
 
 			break;
 		}
