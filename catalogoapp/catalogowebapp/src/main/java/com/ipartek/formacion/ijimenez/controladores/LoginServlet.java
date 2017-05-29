@@ -99,7 +99,7 @@ public class LoginServlet extends HttpServlet {
 			request.setAttribute("usuario", usuario);
 			request.getRequestDispatcher(RUTA_LOGIN).forward(request, response);
 		} else if (esValido) {
-
+			usuario = usuariosDAL.buscarPorId(usuario.getNombre());
 			session.setAttribute("usuario", usuario);
 			// response.sendRedirect("principal.jsp");
 			log.info("Sesion de usuario iniciada");

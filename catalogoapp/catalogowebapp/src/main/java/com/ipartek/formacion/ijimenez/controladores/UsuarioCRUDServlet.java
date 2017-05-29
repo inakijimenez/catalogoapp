@@ -50,6 +50,7 @@ public class UsuarioCRUDServlet extends HttpServlet {
 			request.setAttribute("usuarios", usuarios);
 
 			request.getRequestDispatcher(RUTA_LISTADO).forward(request, response);
+			return;
 		} else {
 			String id = request.getParameter("id");
 

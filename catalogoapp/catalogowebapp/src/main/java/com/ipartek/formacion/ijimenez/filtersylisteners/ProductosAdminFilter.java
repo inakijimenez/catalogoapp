@@ -21,14 +21,14 @@ import com.ipartek.formacion.ijimenez.tipos.Usuario;
 import com.ipartek.formacion.ijimenez.tipos.Usuario.Nivel;
 
 /**
- * Servlet Filter implementation class UsuarioAdminFilter
+ * Servlet Filter implementation class ProductosAdminFilter
  */
-@WebFilter(dispatcherTypes = { DispatcherType.REQUEST }, urlPatterns = { "/usuariocrud" })
-public class UsuarioAdminFilter implements Filter {
+@WebFilter(dispatcherTypes = { DispatcherType.REQUEST }, urlPatterns = { "/administracion" })
+public class ProductosAdminFilter implements Filter {
 
 	private static Logger log = Logger.getLogger(LoginServlet.class);
 
-	public UsuarioAdminFilter() {
+	public ProductosAdminFilter() {
 
 	}
 
@@ -38,7 +38,7 @@ public class UsuarioAdminFilter implements Filter {
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
-		log.info("Estamos en el filtro de administracion para usuarios");
+		log.info("Estamos en el filtro de administracion para los productos");
 
 		HttpSession session = ((HttpServletRequest) request).getSession();
 
@@ -60,9 +60,6 @@ public class UsuarioAdminFilter implements Filter {
 		chain.doFilter(request, response);
 	}
 
-	/**
-	 * @see Filter#init(FilterConfig)
-	 */
 	public void init(FilterConfig fConfig) throws ServletException {
 
 	}
