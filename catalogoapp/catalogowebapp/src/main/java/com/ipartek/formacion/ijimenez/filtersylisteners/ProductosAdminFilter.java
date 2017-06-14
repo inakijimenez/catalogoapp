@@ -16,9 +16,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
-import com.ipartek.formacion.ijimenez.controladores.LoginServlet;
-import com.ipartek.formacion.ijimenez.tipos.Usuario;
-import com.ipartek.formacion.ijimenez.tipos.Usuario.Nivel;
+import com.ipartek.formacion.ijimenez.tipos.UsuarioMySQL;
 
 /**
  * Servlet Filter implementation class ProductosAdminFilter
@@ -26,7 +24,7 @@ import com.ipartek.formacion.ijimenez.tipos.Usuario.Nivel;
 @WebFilter(dispatcherTypes = { DispatcherType.REQUEST }, urlPatterns = { "/administracion" })
 public class ProductosAdminFilter implements Filter {
 
-	private static Logger log = Logger.getLogger(LoginServlet.class);
+	private static Logger log = Logger.getLogger(ProductosAdminFilter.class);
 
 	public ProductosAdminFilter() {
 
@@ -38,25 +36,23 @@ public class ProductosAdminFilter implements Filter {
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 
-		log.info("Estamos en el filtro de administracion para los productos");
+		log.trace("Estamos en el filtro de administracion para los productos");
 
 		HttpSession session = ((HttpServletRequest) request).getSession();
 
-		Usuario usuario = (Usuario) session.getAttribute("usuario");
+		UsuarioMySQL usuario = (UsuarioMySQL) session.getAttribute("usuario");
 
 		if (usuario != null) {
-			log.info("El usuario es " + usuario + "y su nivel de acceso es " + usuario.getNivel());
+			log.info("El usuario es " + usuario + "y su nivel de acceso es " + usuario.getId_roles());
 		} else {
 			log.info("El usuario no esta logeado");
 		}
 
-		if (usuario == null || Nivel.ADMIN != usuario.getNivel()) {
+		if (usuario == null || usuario.getId_roles() != 1) {
 			((HttpServletResponse) response).sendRedirect("index");
 			return;
 		}
-		// else {
-		// request.getRequestDispatcher("usuariocrud").forward(request, response);
-		// }
+
 		chain.doFilter(request, response);
 	}
 

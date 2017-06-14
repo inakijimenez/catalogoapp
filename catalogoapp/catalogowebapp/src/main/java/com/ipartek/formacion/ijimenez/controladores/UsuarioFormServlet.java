@@ -12,10 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import com.ipartek.formacion.ijimenez.dal.DALException;
-import com.ipartek.formacion.ijimenez.dal.UsuariosDAL;
-import com.ipartek.formacion.ijimenez.tipos.Usuario;
-import com.ipartek.formacion.ijimenez.tipos.Usuario.Nivel;
+import com.ipartek.formacion.ijimenez.dal.DAOException;
+import com.ipartek.formacion.ijimenez.dal.UsuarioDAOMySQL;
+import com.ipartek.formacion.ijimenez.tipos.UsuarioMySQL;
 
 @WebServlet("/usuarioform")
 public class UsuarioFormServlet extends HttpServlet {
@@ -28,76 +27,97 @@ public class UsuarioFormServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		UsuarioDAOMySQL usuarioDAO = null;
+
 		String op = request.getParameter("opform");
 
-		String nombre = request.getParameter("nombre");
+		String username = request.getParameter("username");
 		String pass = request.getParameter("pass");
 		String pass2 = request.getParameter("pass2");
+		String nombre_completo = request.getParameter("nombre_completo");
+		int id;
+		int nivel = 2;
 
-		if (request.getParameter("nivel").equals("usuario")) {
-			request.setAttribute("nivel", Nivel.USUARIO);
-		} else if (request.getParameter("nivel").equals("admin")) {
-			request.setAttribute("nivel", Nivel.ADMIN);
-		}
+		try {
 
-		RequestDispatcher rutaListado = request.getRequestDispatcher(UsuarioCRUDServlet.RUTA_SERVLET_LISTADO);
-		RequestDispatcher rutaFormulario = request.getRequestDispatcher(UsuarioCRUDServlet.RUTA_FORMULARIO);
+			ServletContext application = request.getServletContext();
+			usuarioDAO = (UsuarioDAOMySQL) application.getAttribute("usuariosdal");
+			usuarioDAO.abrir();
 
-		// response.setContentType("text/plain");
-		// PrintWriter out = response.getWriter();
-		// out.println(op);
-		// out.println(nombre);
-		// out.println(pass);
-		// out.println(pass2);
-
-		if (op == null) {
-			rutaListado.forward(request, response);
-			return;
-		}
-
-		Usuario usuario = new Usuario(nombre, pass, Nivel.USUARIO);
-
-		ServletContext application = request.getServletContext();
-		UsuariosDAL dal = (UsuariosDAL) application.getAttribute("usuariosdal");
-
-		switch (op) {
-		case "alta":
-			log.info("Se va a llevar a cabo la operacion de alta un usuario");
-			if (pass.equals(pass2)) {
-				dal.alta(usuario);
-				response.sendRedirect(UsuarioCRUDServlet.RUTA_SERVLET_LISTADO);
-			} else {
-				usuario.setErrores("Las contrase�as no coinciden");
-				request.setAttribute("usuario", usuario);
-				rutaFormulario.forward(request, response);
+			if (request.getParameter("nivel").equals("usuario")) {
+				// request.setAttribute("nivel", 2);
+				nivel = 2;
+			} else if (request.getParameter("nivel").equals("admin")) {
+				// request.setAttribute("nivel", 1);
+				nivel = 1;
 			}
 
-			break;
-		case "modificar":
-			log.info("Se va a llevar a cabo la operacion de modificar un usuario");
-			if (pass.equals(pass2)) {
-				try {
-					dal.modificar(usuario);
-				} catch (DALException de) {
-					usuario.setErrores(de.getMessage());
+			RequestDispatcher rutaListado = request.getRequestDispatcher(UsuarioCRUDServlet.RUTA_SERVLET_LISTADO);
+			RequestDispatcher rutaFormulario = request.getRequestDispatcher(UsuarioCRUDServlet.RUTA_FORMULARIO);
+
+			// response.setContentType("text/plain");
+			// PrintWriter out = response.getWriter();
+			// out.println(op);
+			// out.println(nombre);
+			// out.println(pass);
+			// out.println(pass2);
+
+			if (op == null) {
+				rutaListado.forward(request, response);
+				return;
+			}
+
+			UsuarioMySQL usuario = new UsuarioMySQL(0, nivel, nombre_completo, pass, username);
+			System.out.println(usuario + "al cogerlo de la jsp");
+			switch (op) {
+			case "alta":
+				log.info("Se va a llevar a cabo la operacion de alta un usuario");
+				if (pass.equals(pass2)) {
+					usuarioDAO.insert(usuario);
+					response.sendRedirect(UsuarioCRUDServlet.RUTA_SERVLET_LISTADO);
+				} else {
+					usuario.setErrores("Las contraseñas no coinciden");
 					request.setAttribute("usuario", usuario);
 					rutaFormulario.forward(request, response);
-					return;
 				}
+
+				break;
+			case "modificar":
+				log.info("Se va a llevar a cabo la operacion de modificar un usuario");
+
+				if (pass.equals(pass2)) {
+					try {
+						id = usuarioDAO.findByUsername(username).getId();
+						usuario.setId(id);
+						usuarioDAO.update(usuario);
+					} catch (DAOException e) {
+						usuario.setErrores(e.getMessage());
+						request.setAttribute("usuario", usuario);
+						rutaFormulario.forward(request, response);
+						return;
+					}
+					response.sendRedirect(UsuarioCRUDServlet.RUTA_SERVLET_LISTADO);
+				} else {
+					usuario.setErrores("Las contraseñas no coinciden");
+					request.setAttribute("usuario", usuario);
+					rutaFormulario.forward(request, response);
+				}
+
+				break;
+			case "borrar":
+				log.info("Se va a llevar a cabo la operacion de borrar un usuario");
+				usuarioDAO.delete(usuario);
 				response.sendRedirect(UsuarioCRUDServlet.RUTA_SERVLET_LISTADO);
-			} else {
-				usuario.setErrores("Las contrase�as no coinciden");
-				request.setAttribute("usuario", usuario);
-				rutaFormulario.forward(request, response);
+
+				break;
 			}
 
-			break;
-		case "borrar":
-			log.info("Se va a llevar a cabo la operacion de borrar un usuario");
-			dal.borrar(usuario);
-			response.sendRedirect(UsuarioCRUDServlet.RUTA_SERVLET_LISTADO);
-
-			break;
+		} catch (Exception e) {
+			System.out.println("HA CASCADO USUARIOFORM");
+			e.printStackTrace();
+		} finally {
+			usuarioDAO.cerrar();
 		}
 	}
 

@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.ipartek.formacion.ijimenez.dal.ProductosDAL;
+import com.ipartek.formacion.ijimenez.dal.ProductosDALColeccion;
 import com.ipartek.formacion.ijimenez.tipos.Producto;
 
 @WebServlet("/administracion")
@@ -21,57 +21,59 @@ public class ProductosCRUDServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ServletContext application = getServletContext();
-		ProductosDAL dal = (ProductosDAL) application.getAttribute("productosdal");
+		ProductosDALColeccion productoDAL = null;
 
-		String op = request.getParameter("op");
+		try {
+			ServletContext application = getServletContext();
+			productoDAL = (ProductosDALColeccion) application.getAttribute("productosdal");
+			productoDAL.abrir();
 
-		// if (dal == null) {
-		// dal = DALFactory.getProductosDAL();
-		//
-		// dal.nuevo(new Producto(1, "producto1", "descripcion1", 10.00));
-		// dal.nuevo(new Producto(2, "producto2", "descripcion2", 20.00));
-		//
-		// application.setAttribute("productosdal", dal);
-		// }
+			String op = request.getParameter("op");
 
-		if (op == null) {
+			if (op == null) {
 
-			Producto[] productos = dal.buscarTodosLosProductos();
+				Producto[] productos = productoDAL.findAll();
 
-			request.setAttribute("productos", productos);
+				request.setAttribute("productos", productos);
 
-			request.getRequestDispatcher(Rutas.RUTA_ADMINISTRACION).forward(request, response);
+				request.getRequestDispatcher(Rutas.RUTA_ADMINISTRACION).forward(request, response);
 
-		}
-
-		else {
-
-			Producto producto;
-
-			int id;
-
-			switch (op) {
-			case "nuevo":
-				request.getRequestDispatcher(Rutas.RUTA_FORMULARIO).forward(request, response);
-				break;
-
-			case "modificar":
-				id = Integer.parseInt(request.getParameter("id"));
-				producto = dal.buscarPorId(id);
-				request.setAttribute("producto", producto);
-				request.getRequestDispatcher(Rutas.RUTA_FORMULARIO).forward(request, response);
-				break;
-
-			case "borrar":
-				id = Integer.parseInt(request.getParameter("id"));
-				producto = dal.buscarPorId(id);
-				dal.borrar(producto);
-				response.sendRedirect(Rutas.RUTA_SERVLET_LISTADO);
-
-				break;
 			}
+
+			else {
+
+				Producto producto;
+
+				int id;
+
+				switch (op) {
+				case "nuevo":
+					request.getRequestDispatcher(Rutas.RUTA_FORMULARIO).forward(request, response);
+					break;
+
+				case "modificar":
+					id = Integer.parseInt(request.getParameter("id"));
+					producto = productoDAL.findById(id);
+					request.setAttribute("producto", producto);
+					request.getRequestDispatcher(Rutas.RUTA_FORMULARIO).forward(request, response);
+					break;
+
+				case "borrar":
+					id = Integer.parseInt(request.getParameter("id"));
+					producto = productoDAL.findById(id);
+					productoDAL.delete(producto);
+					response.sendRedirect(Rutas.RUTA_SERVLET_LISTADO);
+
+					break;
+				}
+			}
+		} catch (Exception e) {
+			System.out.println("HA CASCADO PRODUCTOCRUD");
+			e.printStackTrace();
+		} finally {
+			productoDAL.cerrar();
 		}
+
 	}
 
 }

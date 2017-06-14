@@ -4,15 +4,17 @@ import com.ipartek.formacion.ijimenez.tipos.Producto;
 
 public interface ProductosDAL {
 
-	public void nuevo(Producto producto);
+	public void insert(Producto producto);
 
-	public void modificar(Producto producto);
+	public void update(Producto producto);
 
-	public void borrar(Producto producto);
+	public void delete(Producto producto);
 
-	public Producto buscarPorId(int id);
+	public Producto findById(int id);
 
-	public Producto[] buscarTodosLosProductos();
+	public Producto[] findAll();
+
+	public Producto findByName(String name);
 
 	public boolean productoExiste(Producto producto);
 

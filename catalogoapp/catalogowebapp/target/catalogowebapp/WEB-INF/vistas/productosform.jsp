@@ -9,7 +9,7 @@
 
 	<form action="productosform" method="post">
 		<fieldset>
-			<label for="id">ID</label> 
+<!-- 	<label for="id">ID</label> 
 			
 			<input type="number" id="id" name="id"
 			  required="required" value="${producto.id}"	
@@ -20,7 +20,7 @@
 		 	/>
 		 	<span class="errores">${producto.idErrores}</span>
 		 	
-		 	
+		 	 -->	
 			<label for="nombre">Nombre</label> 
 			
 			<input id="nombre" name="nombre"

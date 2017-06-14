@@ -8,21 +8,25 @@
 	<thead>
 		<tr>
 			<th>Operaciones</th>
+			<th>Id</th>
 			<th>Usuario</th>
 			<th>Contraseña</th>
-			<th>Nivel de Acceso</th>
+			<th>Id Roles</th>
+			<th>Nombre Completo</th>
 		</tr>
 	</thead>
 	<tbody>
 		<c:forEach items="${requestScope.usuarios}" var="usuario">
 			<tr>
 				<td>
-					<a href="?op=modificar&id=${usuario.nombre}">Modificar</a>
-					<a href="?op=borrar&id=${usuario.nombre}">Borrar</a>
+					<a href="?op=modificar&id=${usuario.username}">Modificar</a>
+					<a href="?op=borrar&id=${usuario.username}">Borrar</a>
 				</td>
-				<td>${usuario.nombre}</td>
-				<td>${usuario.pass}</td>
-				<td>${usuario.nivel}</td>
+				<td>${usuario.id}</td>
+				<td>${usuario.username}</td>
+				<td>${usuario.password}</td>
+				<td>${usuario.id_roles}</td>
+				<td>${usuario.nombre_completo}</td>
 			</tr>
 		</c:forEach>
 	</tbody>
