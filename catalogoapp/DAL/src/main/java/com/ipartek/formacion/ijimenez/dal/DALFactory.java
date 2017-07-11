@@ -11,4 +11,8 @@ public class DALFactory {
 		return new UsuarioDAOMySQL();
 	}
 
+	public static FacturaDAO getFacturasDAO() {
+		return new FacturaDAOMySQL();
+	}
+
 }

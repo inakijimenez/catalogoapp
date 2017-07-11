@@ -7,18 +7,18 @@ import java.sql.SQLException;
 public class IpartekDAOMySQL implements IpartekDAO {
 
 	protected Connection con;
-	
+
 	private String url = "jdbc:mysql://localhost/ipartek";
 	private String mysqlUser = "root";
 	private String mysqlPass = "";
-	
+
 	public IpartekDAOMySQL(String url, String mysqlUser, String mysqlPass) {
 		this();
 		this.url = url;
 		this.mysqlUser = mysqlUser;
 		this.mysqlPass = mysqlPass;
 	}
-	
+
 	public IpartekDAOMySQL() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
@@ -32,7 +32,7 @@ public class IpartekDAOMySQL implements IpartekDAO {
 			throw new DAOException("ERROR NO ESPERADO", e);
 		}
 	}
-	
+
 	public void abrir() {
 		try {
 			con = DriverManager.getConnection(url, mysqlUser, mysqlPass);
@@ -45,7 +45,7 @@ public class IpartekDAOMySQL implements IpartekDAO {
 
 	public void cerrar() {
 		try {
-			if(con != null && !con.isClosed()) {
+			if (con != null && !con.isClosed()) {
 				con.close();
 			}
 			con = null;
@@ -81,5 +81,9 @@ public class IpartekDAOMySQL implements IpartekDAO {
 			throw new DAOException("Error al deshacer transacción", e);
 		}
 	}
-	
+
+	public void reutilizarConexion(IpartekDAO dao) {
+		con = ((IpartekDAOMySQL) dao).con;
+	}
+
 }

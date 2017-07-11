@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 
 import com.ipartek.formacion.ijimenez.dal.UsuarioDAOMySQL;
+import com.ipartek.formacion.ijimenez.tipos.Carrito;
 import com.ipartek.formacion.ijimenez.tipos.UsuarioMySQL;
 
 @WebServlet("/login")
@@ -100,6 +101,10 @@ public class LoginServletMySQL extends HttpServlet {
 				request.getRequestDispatcher(RUTA_LOGIN).forward(request, response);
 			} else if (usuarioDAO.validar(usuario)) {
 				usuario = usuarioDAO.findByUsername(usuario.getUsername());
+				Carrito carrito = new Carrito();
+				carrito = (Carrito) session.getAttribute("carrito");
+				carrito.setIdUsuario(usuario.getId());
+				session.setAttribute("carrito", carrito);
 				session.setAttribute("usuario", usuario);
 				System.out.println(usuario + " antes de la redireccion");
 				// response.sendRedirect("principal.jsp");

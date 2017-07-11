@@ -4,13 +4,18 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSessionEvent;
+import javax.servlet.http.HttpSessionListener;
 
 import com.ipartek.formacion.ijimenez.dal.DALFactory;
+import com.ipartek.formacion.ijimenez.dal.FacturaDAO;
 import com.ipartek.formacion.ijimenez.dal.ProductosDAL;
 import com.ipartek.formacion.ijimenez.dal.UsuarioDAO;
+import com.ipartek.formacion.ijimenez.tipos.Carrito;
 
 @WebListener
-public class InicializarDALListener implements ServletContextListener {
+public class InicializarDALListener implements ServletContextListener, HttpSessionListener {
 
 	public InicializarDALListener() {
 
@@ -43,6 +48,20 @@ public class InicializarDALListener implements ServletContextListener {
 
 		application.setAttribute("productosdal", productosDal);
 
+		FacturaDAO facturaDAO = DALFactory.getFacturasDAO();
+		application.setAttribute("facturasdal", facturaDAO);
 	}
 
+	@Override
+	public void sessionCreated(HttpSessionEvent se) {
+		Carrito carrito = new Carrito();
+		HttpSession session = se.getSession();
+		session.setAttribute("carrito", carrito);
+
+	}
+
+	@Override
+	public void sessionDestroyed(HttpSessionEvent se) {
+
+	}
 }

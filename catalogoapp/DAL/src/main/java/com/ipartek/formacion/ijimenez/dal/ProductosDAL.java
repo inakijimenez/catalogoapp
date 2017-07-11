@@ -2,7 +2,7 @@ package com.ipartek.formacion.ijimenez.dal;
 
 import com.ipartek.formacion.ijimenez.tipos.Producto;
 
-public interface ProductosDAL {
+public interface ProductosDAL extends IpartekDAO {
 
 	public void insert(Producto producto);
 
