@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+             http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+             version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
+
+  <persistence-unit name="aplicacion">	<!--  NOMBRE DE LA PERSISTENCE -->
+  <class>com.ipartek.formacion.ijimenez.Factura</class><!-- Un class por cada clase de nuestro paquete EJE NO OLVIDAR -->
+  <class>com.ipartek.formacion.ijimenez.Producto</class>
+  <class>com.ipartek.formacion.ijimenez.Usuario</class>
+    <properties>
+        <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" /><!-- Aquí es la direccion del driver que usaras -->
+        <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost/ipartek" /><!-- la url de la base de datos -->
+        <property name="javax.persistence.jdbc.user" value="root" /><!-- El usuario por el que te conectas -->
+        <property name="javax.persistence.jdbc.password" value="" /><!-- Bump -->
+        <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5Dialect" /><!-- El dialecto de sql del hibernate, lo sacas de aqui el que tu necesites https://docs.jboss.org/hibernate/orm/3.5/api/org/hibernate/dialect/package-summary.html -->
+        <property name="hibernate.hbm2ddl.auto" value="update" /> <!-- https://stackoverflow.com/questions/438146/hibernate-hbm2ddl-auto-possible-values-and-what-they-do  -->
+        <property name="hibernate.show_sql" value="true"/> <!-- con esto el hibernate te muestra la sentencia que envia por consola, tremendamente util(gracias por eso jon) -->
+        <property name="hibernate.connection.autocommit" value="true"/><!-- No necesario pero lo tengo porque a mi me interesa. Se explica solo su funcionalidad -->
+    </properties>
+  </persistence-unit>
+
+</persistence>
