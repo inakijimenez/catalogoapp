@@ -50,6 +50,7 @@ public class InicializarDALListener implements ServletContextListener, HttpSessi
 
 		FacturaDAO facturaDAO = DALFactory.getFacturasDAO();
 		application.setAttribute("facturasdal", facturaDAO);
+
 	}
 
 	@Override
