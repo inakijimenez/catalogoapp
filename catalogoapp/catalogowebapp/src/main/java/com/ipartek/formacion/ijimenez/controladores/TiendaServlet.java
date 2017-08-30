@@ -2,6 +2,7 @@ package com.ipartek.formacion.ijimenez.controladores;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -11,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.ipartek.formacion.ijimenez.dal.ProductosDALColeccion;
+import com.ipartek.formacion.ijimenez.dal.ProductosDALHibernate;
 import com.ipartek.formacion.ijimenez.tipos.Carrito;
 import com.ipartek.formacion.ijimenez.tipos.CarritoLinea;
 import com.ipartek.formacion.ijimenez.tipos.Producto;
@@ -29,18 +30,18 @@ public class TiendaServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		ProductosDALColeccion productoDAL = null;
+		ProductosDALHibernate productoDAL = null;
 
 		try {
 			ServletContext application = getServletContext();
 			HttpSession session = request.getSession();
-			productoDAL = (ProductosDALColeccion) application.getAttribute("productosdal");
+			productoDAL = (ProductosDALHibernate) application.getAttribute("productosdal");
 			Carrito carrito = (Carrito) session.getAttribute("carrito");
 			Collection<CarritoLinea> lineas = carrito.getLineas();
 
-			productoDAL.abrir();
+			// productoDAL.abrir();
 
-			Producto[] productos = productoDAL.findAll();
+			List<Producto> productos = productoDAL.findAll();
 
 			request.setAttribute("productos", productos);
 
@@ -71,9 +72,10 @@ public class TiendaServlet extends HttpServlet {
 		} catch (Exception e) {
 			System.out.println("HA CASCADO LA TIENDA");
 			e.printStackTrace();
-		} finally {
-			productoDAL.cerrar();
 		}
+		// finally {
+		// productoDAL.cerrar();
+		// }
 
 	}
 }

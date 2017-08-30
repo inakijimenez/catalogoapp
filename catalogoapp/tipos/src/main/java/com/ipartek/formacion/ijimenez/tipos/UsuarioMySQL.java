@@ -1,6 +1,6 @@
 package com.ipartek.formacion.ijimenez.tipos;
 
-public class UsuarioMySQL {
+public class UsuarioMySQL extends Usuario {
 	// Constructores, getters y setters, hashCode y equals y toString
 	private int id;
 	private int id_roles;
@@ -107,8 +107,7 @@ public class UsuarioMySQL {
 
 	@Override
 	public String toString() {
-		return "Usuario [id=" + id + ", id_roles=" + id_roles + ", nombre_completo=" + nombre_completo + ", password=" + password + ", username=" + username
-				+ "]";
+		return "Usuario [id=" + id + ", id_roles=" + id_roles + ", nombre_completo=" + nombre_completo + ", password=" + password + ", username=" + username + "]";
 	}
 
 	public String getErrores() {

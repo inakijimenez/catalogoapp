@@ -1,6 +1,7 @@
 package com.ipartek.formacion.ijimenez.controladores;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -12,9 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import com.ipartek.formacion.ijimenez.dal.UsuarioDAOMySQL;
+import com.ipartek.formacion.ijimenez.tipos.Usuario;
 import com.ipartek.formacion.ijimenez.tipos.UsuarioMySQL;
 
-@WebServlet("/usuariocrud")
+@WebServlet("/usuariocrudMySQL")
 public class UsuarioCRUDServlet extends HttpServlet {
 	static final String RUTA_FORMULARIO = "/WEB-INF/vistas/usuarioform.jsp";
 	static final String RUTA_LISTADO = "/WEB-INF/vistas/usuariocrud.jsp";
@@ -41,7 +43,7 @@ public class UsuarioCRUDServlet extends HttpServlet {
 			if (op == null) {
 
 				// Usuario[] usuarios = dal.buscarTodosLosUsuarios();
-				UsuarioMySQL[] usuarios = usuarioDAO.findAll();
+				List<Usuario> usuarios = usuarioDAO.findAll();
 
 				request.setAttribute("usuarios", usuarios);
 
@@ -51,7 +53,7 @@ public class UsuarioCRUDServlet extends HttpServlet {
 
 				UsuarioMySQL usuario;
 				System.out.println(request);
-				usuario = usuarioDAO.findByUsername(request.getParameter("id"));
+				usuario = (UsuarioMySQL) usuarioDAO.findByUsername(request.getParameter("id"));
 				System.out.println(usuario);
 
 				switch (op) {

@@ -10,5 +10,6 @@ public class Rutas {
 	static final String RUTA_FORMULARIO = "/WEB-INF/vistas/productosform.jsp";
 	static final String RUTA_SERVLET_LISTADO = "administracion";
 	static final String RUTA_CHECKOUT = "/WEB-INF/vistas/checkout.jsp";
-
+	static final String RUTA_FACTURACRUD = "/WEB-INF/vistas/facturacrud.jsp";
+	static final String RUTA_LOGIN_HIBERNATE = "loginHibernate";
 }

@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.ipartek.formacion.ijimenez.tipos.Factura;
 import com.ipartek.formacion.ijimenez.tipos.FacturaLinea;
@@ -21,7 +22,7 @@ public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 
 	private PreparedStatement psFindAll, psFindById, psInsert, psUpdate, psDelete, psFindAllLineas;
 
-	public Factura[] findAll() {
+	public List<Factura> findAll() {
 		ArrayList<Factura> facturas = new ArrayList<Factura>();
 		ResultSet rs = null;
 
@@ -48,7 +49,7 @@ public class FacturaDAOMySQL extends IpartekDAOMySQL implements FacturaDAO {
 		} finally {
 			cerrar(psFindAll, rs);
 		}
-		return facturas.toArray(new Factura[facturas.size()]);
+		return facturas;
 	}
 
 	public Factura findById(int id) {

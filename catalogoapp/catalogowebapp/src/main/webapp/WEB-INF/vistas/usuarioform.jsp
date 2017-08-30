@@ -6,7 +6,7 @@
 <h2>Formulario de usuarios</h2>
 
 <jsp:useBean id="usuario" scope="request"
-	class="com.ipartek.formacion.ijimenez.tipos.UsuarioMySQL" />
+	class="com.ipartek.formacion.ijimenez.tipos.HibernateUsuario" />
 
 <form action="usuarioform" method="post">
 	<fieldset>

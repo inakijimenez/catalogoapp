@@ -1,11 +1,13 @@
 package com.ipartek.formacion.ijimenez.dal;
 
+import java.util.List;
+
 import com.ipartek.formacion.ijimenez.tipos.Factura;
 import com.ipartek.formacion.ijimenez.tipos.FacturaLinea;
 import com.ipartek.formacion.ijimenez.tipos.Producto;
 
 public interface FacturaDAO extends IpartekDAO {
-	public Factura[] findAll();
+	public List<Factura> findAll();
 
 	public Factura findById(int id);
 

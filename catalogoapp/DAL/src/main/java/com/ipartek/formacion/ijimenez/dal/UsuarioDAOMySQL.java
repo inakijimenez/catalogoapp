@@ -5,7 +5,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
+import com.ipartek.formacion.ijimenez.tipos.Usuario;
 import com.ipartek.formacion.ijimenez.tipos.UsuarioMySQL;
 
 public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
@@ -27,9 +29,9 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 
 	}
 
-	public UsuarioMySQL[] findAll() {
+	public List<Usuario> findAll() {
 
-		ArrayList<UsuarioMySQL> usuarios = new ArrayList<UsuarioMySQL>();
+		ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
 		ResultSet rs = null;
 
 		try {
@@ -57,7 +59,7 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 		} finally {
 			cerrar(psFindAll, rs);
 		}
-		return usuarios.toArray(new UsuarioMySQL[usuarios.size()]);
+		return usuarios;
 	}
 
 	private void cerrar(PreparedStatement ps) {
@@ -75,7 +77,7 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 		}
 	}
 
-	public UsuarioMySQL findById(int id) {
+	public Usuario findById(int id) {
 		UsuarioMySQL usuario = null;
 		ResultSet rs = null;
 
@@ -104,7 +106,7 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 		return usuario;
 	}
 
-	public UsuarioMySQL findByUsername(String username) {
+	public Usuario findByUsername(String username) {
 		UsuarioMySQL usuario = null;
 		ResultSet rs = null;
 
@@ -135,16 +137,18 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 		return usuario;
 	}
 
-	public int insert(UsuarioMySQL usuario) {
+	public int insert(Usuario usuario) {
 		ResultSet generatedKeys = null;
 
 		try {
+
+			UsuarioMySQL usuarioMySQL = (UsuarioMySQL) usuario;
 			psInsert = con.prepareStatement(INSERT, Statement.RETURN_GENERATED_KEYS);
 
-			psInsert.setString(1, usuario.getUsername());
-			psInsert.setString(2, usuario.getPassword());
-			psInsert.setString(3, usuario.getNombre_completo());
-			psInsert.setInt(4, usuario.getId_roles());
+			psInsert.setString(1, usuarioMySQL.getUsername());
+			psInsert.setString(2, usuarioMySQL.getPassword());
+			psInsert.setString(3, usuarioMySQL.getNombre_completo());
+			psInsert.setInt(4, usuarioMySQL.getId_roles());
 
 			int res = psInsert.executeUpdate();
 
@@ -165,16 +169,17 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 		}
 	}
 
-	public void update(UsuarioMySQL usuario) {
+	public void update(Usuario usuario) {
 		try {
+			UsuarioMySQL usuarioMySQL = (UsuarioMySQL) usuario;
 			psUpdate = con.prepareStatement(UPDATE);
 
-			psUpdate.setString(1, usuario.getUsername());
-			psUpdate.setString(2, usuario.getPassword());
-			psUpdate.setString(3, usuario.getNombre_completo());
-			psUpdate.setInt(4, usuario.getId_roles());
+			psUpdate.setString(1, usuarioMySQL.getUsername());
+			psUpdate.setString(2, usuarioMySQL.getPassword());
+			psUpdate.setString(3, usuarioMySQL.getNombre_completo());
+			psUpdate.setInt(4, usuarioMySQL.getId_roles());
 
-			psUpdate.setInt(5, usuario.getId());
+			psUpdate.setInt(5, usuarioMySQL.getId());
 
 			int res = psUpdate.executeUpdate();
 
@@ -188,8 +193,9 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 		}
 	}
 
-	public void delete(UsuarioMySQL usuario) {
-		delete(usuario.getId());
+	public void delete(Usuario usuario) {
+		UsuarioMySQL usuarioMySQL = (UsuarioMySQL) usuario;
+		delete(usuarioMySQL.getId());
 	}
 
 	public void delete(int id) {
@@ -211,12 +217,14 @@ public class UsuarioDAOMySQL extends IpartekDAOMySQL implements UsuarioDAO {
 
 	}
 
-	public boolean validar(UsuarioMySQL usuario) {
+	public boolean validar(Usuario usuario) {
 
 		// verificar que el usuario existe
 		// System.out.println(usuario + " usuario en validar");
-		if (findByUsername(usuario.getUsername()) != null) {
-			return findByUsername(usuario.getUsername()).getPassword().equals(usuario.getPassword());
+		UsuarioMySQL usuarioMySQL = (UsuarioMySQL) usuario;
+
+		if (findByUsername(usuarioMySQL.getUsername()) != null) {
+			return ((UsuarioMySQL) findByUsername(usuarioMySQL.getUsername())).getPassword().equals(usuarioMySQL.getPassword());
 		} else {
 			return false;
 		}

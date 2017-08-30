@@ -16,7 +16,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
-import com.ipartek.formacion.ijimenez.tipos.UsuarioMySQL;
+import com.ipartek.formacion.ijimenez.tipos.HibernateUsuario;
 
 /**
  * Servlet Filter implementation class CarritoLoginFilter
@@ -41,16 +41,17 @@ public class CheckoutFilter implements Filter {
 
 		HttpSession session = ((HttpServletRequest) request).getSession();
 
-		UsuarioMySQL usuario = (UsuarioMySQL) session.getAttribute("usuario");
+		// UsuarioMySQL usuario = (UsuarioMySQL) session.getAttribute("usuario");
+		HibernateUsuario usuario = (HibernateUsuario) session.getAttribute("usuario");
 
 		if (usuario != null) {
-			log.info("El usuario es " + usuario + "y su nivel de acceso es " + usuario.getId_roles());
+			log.info("El usuario es " + usuario + "y su nivel de acceso es " + usuario.getRol().getIdRol());
 		} else {
 			log.info("El usuario no esta logeado");
 		}
 
 		if (usuario == null) {
-			((HttpServletResponse) response).sendRedirect("login");
+			((HttpServletResponse) response).sendRedirect("loginHibernate");
 			return;
 		}
 

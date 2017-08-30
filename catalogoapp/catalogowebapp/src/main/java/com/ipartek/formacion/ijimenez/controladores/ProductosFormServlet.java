@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
-import com.ipartek.formacion.ijimenez.dal.ProductosDALColeccion;
-import com.ipartek.formacion.ijimenez.tipos.Producto;
+import com.ipartek.formacion.ijimenez.dal.ProductosDALHibernate;
+import com.ipartek.formacion.ijimenez.tipos.HibernateProducto;
 
 /**
  * Servlet implementation class ProductosFormServlet
@@ -30,7 +30,7 @@ public class ProductosFormServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		ProductosDALColeccion productoDAL = null;
+		ProductosDALHibernate productoDAL = null;
 
 		String op = request.getParameter("op");
 
@@ -42,8 +42,8 @@ public class ProductosFormServlet extends HttpServlet {
 		try {
 
 			ServletContext application = request.getServletContext();
-			productoDAL = (ProductosDALColeccion) application.getAttribute("productosdal");
-			productoDAL.abrir();
+			productoDAL = (ProductosDALHibernate) application.getAttribute("productosdal");
+			// productoDAL.abrir();
 
 			if (request.getParameter("precio") == null || request.getParameter("precio").equals("")) {
 				precio = 0;
@@ -60,7 +60,7 @@ public class ProductosFormServlet extends HttpServlet {
 				return;
 			}
 
-			Producto producto = new Producto(id, nombre, descripcion, precio);
+			HibernateProducto producto = new HibernateProducto(id, nombre, descripcion, precio);
 
 			// boolean idValido = producto.getId() != 0;
 			boolean nombreValido = producto.getNombre() != null && producto.getNombre().length() != 0;
@@ -132,8 +132,9 @@ public class ProductosFormServlet extends HttpServlet {
 		} catch (Exception e) {
 			System.out.println("HA CASCADO PRODUCTOFORM");
 			e.printStackTrace();
-		} finally {
-			productoDAL.cerrar();
 		}
+		// finally {
+		// productoDAL.cerrar();
+		// }
 	}
 }

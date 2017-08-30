@@ -100,7 +100,7 @@ public class LoginServletMySQL extends HttpServlet {
 				request.setAttribute("usuario", usuario);
 				request.getRequestDispatcher(RUTA_LOGIN).forward(request, response);
 			} else if (usuarioDAO.validar(usuario)) {
-				usuario = usuarioDAO.findByUsername(usuario.getUsername());
+				usuario = (UsuarioMySQL) usuarioDAO.findByUsername(usuario.getUsername());
 				Carrito carrito = new Carrito();
 				carrito = (Carrito) session.getAttribute("carrito");
 				carrito.setIdUsuario(usuario.getId());

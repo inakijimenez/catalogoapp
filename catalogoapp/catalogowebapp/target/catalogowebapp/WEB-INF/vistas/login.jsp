@@ -3,9 +3,9 @@
 	<h2>Login</h2>
 	
 	<jsp:useBean id="usuario" scope="request"
-		class="com.ipartek.formacion.ijimenez.tipos.UsuarioMySQL" />
+		class="com.ipartek.formacion.ijimenez.tipos.HibernateUsuario" />
 
-	<form action="login" method="post">
+	<form action="loginHibernate" method="post">
 		<fieldset>
 			<label for="nombre">Nombre</label> <input id="nombre" name="nombre"
 			  required="required" minlength="4" value="${usuario.username}" />

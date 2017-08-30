@@ -10,9 +10,14 @@
 <thead> 
 
 <tr>
-	<th>Id Usuario</th>
+	<th>Id Usuario ${carrito.idUsuario}</th>
+	<th>Id Factura ${factura.id}</th>
+</tr>
+<tr>
+
 	<th>Producto</th>
 	<th>Cantidad</th>
+	<th>Precio por Unidad</th>
 	
 </tr>
 </thead>
@@ -20,9 +25,10 @@
 		<c:forEach items="${requestScope.lineas}" var="lineas">
 			<tr>
 
-				<td>${carrito.idUsuario}</td> 
+				
 				<td>${lineas.producto.nombre}</td>
 				<td>${lineas.cantidad}</td> 
+				<td>${lineas.producto.precio}</td>
 			
 			</tr>
 	

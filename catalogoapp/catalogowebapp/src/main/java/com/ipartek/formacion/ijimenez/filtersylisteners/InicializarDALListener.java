@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSessionListener;
 
 import com.ipartek.formacion.ijimenez.dal.DALFactory;
 import com.ipartek.formacion.ijimenez.dal.FacturaDAO;
+import com.ipartek.formacion.ijimenez.dal.FacturaLineaDAOHibernate;
 import com.ipartek.formacion.ijimenez.dal.ProductosDAL;
 import com.ipartek.formacion.ijimenez.dal.UsuarioDAO;
 import com.ipartek.formacion.ijimenez.tipos.Carrito;
@@ -50,6 +51,9 @@ public class InicializarDALListener implements ServletContextListener, HttpSessi
 
 		FacturaDAO facturaDAO = DALFactory.getFacturasDAO();
 		application.setAttribute("facturasdal", facturaDAO);
+
+		FacturaLineaDAOHibernate flDAO = DALFactory.getFacturaLineaDAO();
+		application.setAttribute("fldao", flDAO);
 
 	}
 

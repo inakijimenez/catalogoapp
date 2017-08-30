@@ -1,19 +1,21 @@
 package com.ipartek.formacion.ijimenez.dal;
 
-import com.ipartek.formacion.ijimenez.tipos.UsuarioMySQL;
+import java.util.List;
+
+import com.ipartek.formacion.ijimenez.tipos.Usuario;
 
 public interface UsuarioDAO extends IpartekDAO {
-	public UsuarioMySQL[] findAll();
+	public List<Usuario> findAll();
 
-	public UsuarioMySQL findById(int id);
+	public Usuario findById(int id);
 
-	public int insert(UsuarioMySQL usuario);
+	public int insert(Usuario usuario);
 
-	public void update(UsuarioMySQL usuario);
+	public void update(Usuario usuario);
 
-	public void delete(UsuarioMySQL usuario);
+	public void delete(Usuario usuario);
 
 	public void delete(int id);
 
-	public boolean validar(UsuarioMySQL usuario);
+	public boolean validar(Usuario usuario);
 }

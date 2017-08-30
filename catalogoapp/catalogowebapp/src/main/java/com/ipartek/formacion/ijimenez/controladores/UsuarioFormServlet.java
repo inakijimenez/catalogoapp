@@ -16,7 +16,7 @@ import com.ipartek.formacion.ijimenez.dal.DAOException;
 import com.ipartek.formacion.ijimenez.dal.UsuarioDAOMySQL;
 import com.ipartek.formacion.ijimenez.tipos.UsuarioMySQL;
 
-@WebServlet("/usuarioform")
+@WebServlet("/usuarioformmysql")
 public class UsuarioFormServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -88,7 +88,7 @@ public class UsuarioFormServlet extends HttpServlet {
 
 				if (pass.equals(pass2)) {
 					try {
-						id = usuarioDAO.findByUsername(username).getId();
+						id = ((UsuarioMySQL) usuarioDAO.findByUsername(username)).getId();
 						usuario.setId(id);
 						usuarioDAO.update(usuario);
 					} catch (DAOException e) {

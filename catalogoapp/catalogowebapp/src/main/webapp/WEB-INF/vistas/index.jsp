@@ -6,6 +6,7 @@
 			
 			<li><a href="administracion">Administracion de Productos</a></li>
 			<li><a href="tienda">Tienda</a></li>
+			<li><a href="facturas">Facturas</a></li>
 		</ul>
 	
 <%@ include file="includes/pie.jsp" %>

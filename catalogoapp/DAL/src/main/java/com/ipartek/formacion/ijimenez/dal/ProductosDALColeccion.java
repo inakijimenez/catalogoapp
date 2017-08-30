@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.ipartek.formacion.ijimenez.tipos.Producto;
 
@@ -127,7 +128,7 @@ public class ProductosDALColeccion extends IpartekDAOMySQL implements ProductosD
 		return producto;
 	}
 
-	public Producto[] findAll() {
+	public List<Producto> findAll() {
 
 		ArrayList<Producto> productos = new ArrayList<Producto>();
 		ResultSet rs = null;
@@ -156,7 +157,7 @@ public class ProductosDALColeccion extends IpartekDAOMySQL implements ProductosD
 		} finally {
 			cerrar(psFindAll, rs);
 		}
-		return productos.toArray(new Producto[productos.size()]);
+		return productos;
 	}
 
 	@Override

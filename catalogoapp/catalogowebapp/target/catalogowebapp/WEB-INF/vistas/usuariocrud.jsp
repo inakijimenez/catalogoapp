@@ -25,7 +25,7 @@
 				<td>${usuario.id}</td>
 				<td>${usuario.username}</td>
 				<td>${usuario.password}</td>
-				<td>${usuario.id_roles}</td>
+				<td>${usuario.rol.idRol}</td>
 				<td>${usuario.nombre_completo}</td>
 			</tr>
 		</c:forEach>

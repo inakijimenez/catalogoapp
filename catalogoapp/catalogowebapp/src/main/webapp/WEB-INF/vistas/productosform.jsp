@@ -5,7 +5,7 @@
 <h2>Formulario de usuarios</h2>
 	
 	<jsp:useBean id="producto" scope="request"
-		class="com.ipartek.formacion.ijimenez.tipos.Producto" />
+		class="com.ipartek.formacion.ijimenez.tipos.HibernateProducto" />
 
 	<form action="productosform" method="post">
 		<fieldset>

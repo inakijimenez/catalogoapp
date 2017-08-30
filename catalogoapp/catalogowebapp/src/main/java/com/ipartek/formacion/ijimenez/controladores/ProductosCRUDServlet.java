@@ -1,6 +1,7 @@
 package com.ipartek.formacion.ijimenez.controladores;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -9,7 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.ipartek.formacion.ijimenez.dal.ProductosDALColeccion;
+import com.ipartek.formacion.ijimenez.dal.ProductosDALHibernate;
+import com.ipartek.formacion.ijimenez.tipos.HibernateProducto;
 import com.ipartek.formacion.ijimenez.tipos.Producto;
 
 @WebServlet("/administracion")
@@ -21,18 +23,18 @@ public class ProductosCRUDServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ProductosDALColeccion productoDAL = null;
+		ProductosDALHibernate productoDAL = null;
 
 		try {
 			ServletContext application = getServletContext();
-			productoDAL = (ProductosDALColeccion) application.getAttribute("productosdal");
-			productoDAL.abrir();
+			productoDAL = (ProductosDALHibernate) application.getAttribute("productosdal");
+			// productoDAL.abrir();
 
 			String op = request.getParameter("op");
 
 			if (op == null) {
 
-				Producto[] productos = productoDAL.findAll();
+				List<Producto> productos = productoDAL.findAll();
 
 				request.setAttribute("productos", productos);
 
@@ -42,7 +44,7 @@ public class ProductosCRUDServlet extends HttpServlet {
 
 			else {
 
-				Producto producto;
+				HibernateProducto producto;
 
 				int id;
 
@@ -53,14 +55,14 @@ public class ProductosCRUDServlet extends HttpServlet {
 
 				case "modificar":
 					id = Integer.parseInt(request.getParameter("id"));
-					producto = productoDAL.findById(id);
+					producto = (HibernateProducto) productoDAL.findById(id);
 					request.setAttribute("producto", producto);
 					request.getRequestDispatcher(Rutas.RUTA_FORMULARIO).forward(request, response);
 					break;
 
 				case "borrar":
 					id = Integer.parseInt(request.getParameter("id"));
-					producto = productoDAL.findById(id);
+					producto = (HibernateProducto) productoDAL.findById(id);
 					productoDAL.delete(producto);
 					response.sendRedirect(Rutas.RUTA_SERVLET_LISTADO);
 
@@ -70,9 +72,10 @@ public class ProductosCRUDServlet extends HttpServlet {
 		} catch (Exception e) {
 			System.out.println("HA CASCADO PRODUCTOCRUD");
 			e.printStackTrace();
-		} finally {
-			productoDAL.cerrar();
 		}
+		// finally {
+		// productoDAL.cerrar();
+		// }
 
 	}
 
