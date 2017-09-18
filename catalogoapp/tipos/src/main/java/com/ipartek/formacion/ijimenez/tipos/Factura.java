@@ -13,10 +13,11 @@ public class Factura {
 
 	private List<FacturaLinea> lineas = new ArrayList<FacturaLinea>();
 
-	public Factura(int id, String número_factura, int id_usuarios, Date fecha) {
+	public Factura(int id, String numero_factura, int id_usuarios, Date fecha) {
 		super();
 		this.id = id;
-		this.numero_factura = número_factura;
+		this.numero_factura = numero_factura;
+
 		this.id_usuarios = id_usuarios;
 		this.fecha = fecha;
 	}
@@ -104,7 +105,8 @@ public class Factura {
 
 	@Override
 	public String toString() {
-		return "Factura [id=" + id + ", número_factura=" + numero_factura + ", id_usuarios=" + id_usuarios + ", fecha=" + fecha + "\n" + lineas.toString() + "]";
+		return "Factura [id=" + id + ", número_factura=" + numero_factura + ", id_usuarios=" + id_usuarios + ", fecha=" + fecha + "\n" + lineas.toString()
+				+ "]";
 	}
 
 }

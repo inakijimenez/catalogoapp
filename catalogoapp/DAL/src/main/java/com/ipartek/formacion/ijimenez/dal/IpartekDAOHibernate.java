@@ -6,17 +6,19 @@ import javax.persistence.Persistence;
 
 public class IpartekDAOHibernate implements IpartekDAO {
 
-	public static EntityManager manager;
+	private static EntityManager manager;
 
 	private static EntityManagerFactory emf;
 
 	public EntityManager crearManager() {
-		emf = Persistence.createEntityManagerFactory("aplicacion");
+
+		if (emf == null)
+			emf = Persistence.createEntityManagerFactory("aplicacion");
+
 		manager = emf.createEntityManager();
 		return manager;
 	}
 
-	@Override
 	public void abrir() {
 		try {
 			manager = crearManager();
@@ -28,7 +30,7 @@ public class IpartekDAOHibernate implements IpartekDAO {
 
 	@Override
 	public void cerrar() {
-		emf.close();
+
 	}
 
 	@Override
@@ -38,13 +40,6 @@ public class IpartekDAOHibernate implements IpartekDAO {
 
 	@Override
 	public void iniciarTransaccion() {
-		try {
-			manager = crearManager();
-			manager.getTransaction().commit();
-		} catch (DAOException e) {
-			manager.getTransaction().rollback();
-			throw new DAOException("Error al iniciar la transaccion", e);
-		}
 
 	}
 
